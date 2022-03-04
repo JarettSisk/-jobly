@@ -58,9 +58,26 @@ function ensureAdmin(req, res, next) {
     }
 }
 
+function ensureAdminOrLoggedIn(req, res, next) {
+    try {
+
+        // If there is no local user, or the user is not an admin
+        if (!res.locals.user || (res.locals.user.username !== req.params.username && res.locals.user.isAdmin === false)) {
+            // Unauthorized
+            throw new UnauthorizedError();
+        }
+        // else we move to next callback
+        return next();
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
   authenticateJWT,
   ensureLoggedIn,
-  ensureAdmin
+  ensureAdmin,
+  ensureAdminOrLoggedIn
 };
