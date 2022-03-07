@@ -93,7 +93,6 @@ class Company {
     // Compine the completed sql statemnt into the full query
     
     fullQuery += " ORDER BY name";
-    console.log(fullQuery);            
     const companiesRes = await db.query(fullQuery, values);
     return companiesRes.rows;
   }

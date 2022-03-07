@@ -85,7 +85,6 @@ class Job {
     // Combine the completed sql statemnt into the full query
     
     fullQuery += " ORDER BY title";
-    console.log(fullQuery);            
     const jobsRes = await db.query(fullQuery, values);
     return jobsRes.rows;
   }
