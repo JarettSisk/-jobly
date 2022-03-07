@@ -8,6 +8,7 @@ const express = require("express");
 const { ensureLoggedIn, ensureAdmin, ensureAdminOrLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
+const Job = require("../models/job");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
@@ -117,6 +118,18 @@ router.delete("/:username", ensureAdminOrLoggedIn, async function (req, res, nex
     return next(err);
   }
 });
+
+router.post("/:username/jobs/:id", async function (req, res, next) {
+    try {
+        const user = await User.get(req.params.username); //get the user
+        const job = await Job.get(req.params.id); //Get the job
+        const application = await User.submitApplication(user.username, job.id);
+        return res.json({applied: application})
+        
+    } catch (error) {
+        return next(error)
+    }
+})
 
 
 module.exports = router;

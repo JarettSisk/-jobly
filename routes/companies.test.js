@@ -170,6 +170,15 @@ describe("GET /companies/:handle", function () {
         description: "Desc1",
         numEmployees: 1,
         logoUrl: "http://c1.img",
+        jobs: [
+            {
+            company_handle: "c1",
+            equity: "0",
+            id: expect.any(Number),
+            salary: 10,
+            title: "j1",
+            },
+        ],
       },
     });
   });

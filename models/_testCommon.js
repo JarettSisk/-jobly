@@ -36,7 +36,16 @@ async function commonBeforeAll() {
     VALUES ($1, $2, $3, $4), ($5, $6, $7, $8)`, [
         "j1", 10, 0, "c1",
         "j2", 20, 0, "c2" 
-    ])
+    ]);
+    
+    // Fetch a job for id acess
+    let job1Res = await db.query(`
+    SELECT * FROM jobs WHERE title = 'j1'`);
+
+    // Insert a new application at the job1 result
+    await db.query(`
+    INSERT INTO applications (username, job_id)
+    VALUES ($1, $2)`, ["u1", job1Res.rows[0].id]);
 }
 
 async function commonBeforeEach() {
